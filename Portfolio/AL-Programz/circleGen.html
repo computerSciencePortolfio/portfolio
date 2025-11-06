@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="icon" href="https://ik.imagekit.io/ALProgramz/Screenshot%202025-09-18%20100602.png?updatedAt=1758215209361">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Liam's World</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css">
+    <style>
+        body {
+            transition: background-color 0.5s linear;
+            background-color: rgb(255, 255, 255);
+        }
+        .circles {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            border: 2px solid white;
+            transition: transform 1s linear;
+            box-shadow: 0 0 30px white;
+            position: absolute;
+        }
+        .btn-style {
+            padding: 10px 30px;
+            margin: 20px;
+            border-radius: 3px;
+            border: 1px solid black;
+            cursor: pointer;
+            background-color: rgba(221, 21, 21, 0.445);
+            border: 1px solid rgb(146, 8, 8);
+            box-shadow: 0 0 1.5px red;
+            transition: transform 0.1s linear;
+        }
+        .btn-style:hover {
+            transform: scale(1.05);
+        }
+        .btn-style:active {
+            transform: scale(1.02);
+        }
+        input, #speed-btn {
+            padding: 5px;
+            border-radius: 4px;
+            border: 1px solid black;
+            background-color: rgba(128, 128, 128, 0.192);
+            color: black;
+        }
+        #speed-btn {
+            cursor: pointer;
+            transition: transform 0.1s linear;
+        }
+        #speed-btn:hover {
+            transform: scale(1.05);
+        }
+        #speed-btn:active {
+            transform: scale(1.02);
+        }
+        .circles i {
+            font-size: 70px;
+        }
+        h1 {
+            color: red;
+            background-color: rgb(165, 165, 165);
+            padding: 20px;
+            width: fit-content;
+            border-radius: 10px;
+            font-family:Verdana, Geneva, Tahoma, sans-serif;
+            letter-spacing: 2px;
+            word-spacing: 7px;
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+        }
+        #remove {
+            padding: 5px;
+            background-color: red;
+            border: 1px solid black;
+            border-radius: 4px;
+            color: white;
+            cursor: pointer;
+        }
+    </style>
+    <link rel="icon" href="https://ik.imagekit.io/ALProgramz/Screenshot%202025-09-18%20100602.png?updatedAt=1758215209361">
+</head>
+<body>
+    <h1>EPILEPSY WARNING <button id="remove">X</button></h1>
+    <button class="btn-style" id="circle-btn">Create Circle</button>
+    <button class="btn-style off" id="auto-circle">Auto Create Circles (Status: OFF)</button>
+    <button class="btn-style" id="random-bg">Change Circle Color</button>
+    <button class="btn-style" id="cat-btn">Summon Cat(s)</button>
+    <br>
+    <div>
+        <input type="number" value="1" placeholder="Circle & bg-c Speed" class="speed">s
+    </div>
+    <div class="circles"></div>
+
+    <script>
+        const body = Array.from(document.getElementsByTagName("body"));
+        const catBtn = document.getElementById("cat-btn");
+        let inv;
+        const speed = Array.from(document.getElementsByClassName("speed"));
+        const circleBtn = document.getElementById("circle-btn");
+        let timeout;
+
+        const changeColor = num => {
+            clearTimeout(timeout);
+            Array.from(document.getElementsByClassName("circles")).forEach(circle => {
+                circle.style.transition = `transform ${num}s linear`;
+            });
+            body[0].style.transition = `background-color ${num}s linear`;
+            timeout = setTimeout(() => {
+                body[0].style.backgroundColor = `rgb(${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)})`;
+                Array.from(document.getElementsByClassName("circles")).forEach(circle => {
+                    circle.style.transform = `translate(${Math.floor(Math.random() * 80)}vh, ${Math.floor(Math.random() * 80)}vh)`;
+                });
+                changeColor(Number(speed[0].value));
+            }, num * 1000);
+        };
+
+        const createCircle = () => {
+            let div = document.createElement("div");
+            div.classList.add("circles");
+            body[0].appendChild(div);
+        };
+
+        circleBtn.addEventListener("click", createCircle);
+
+        const autoCircleBtn = document.getElementById("auto-circle");
+        const autoCircle = () => {
+            if (autoCircleBtn.classList.contains("off")) {
+                autoCircleBtn.classList.remove("off");
+                autoCircleBtn.textContent = "Auto Create Circles (Status: ON)";
+                inv = setInterval(() => {
+                    let div = document.createElement("div");
+                    div.classList.add("circles");
+                    body[0].appendChild(div);
+                }, 10);
+            } else {
+                autoCircleBtn.classList.add("off");
+                autoCircleBtn.textContent = "Auto Create Circles (Status: OFF)";
+                clearInterval(inv);
+                inv = null;
+            }
+        };
+
+        const speedFunc = () => {
+            clearTimeout(timeout);
+            timeout = null;
+            changeColor(Number(speed[0].value));
+        };
+
+        speed[0].addEventListener("change", speedFunc);
+        autoCircleBtn.addEventListener("click", autoCircle);
+
+        const backgroundChanger = () => {
+            Array.from(document.getElementsByClassName("circles")).forEach(circle => {
+                circle.style.background = `rgb(${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)})`;
+            });
+        };
+
+        document.getElementById("random-bg").addEventListener("click", backgroundChanger);
+        catBtn.addEventListener("click", () => {
+            Array.from(document.getElementsByClassName("circles")).forEach(circle => {
+                circle.style.background = "None";
+                circle.style.boxShadow = "none";
+                circle.style.border = "none";
+                circle.innerHTML = `<i class="fa fa-cat"></i>`;
+            })
+        })
+        window.onload = () => {
+            changeColor(Number(speed[0].value));
+        };
+        document.getElementById("remove").addEventListener("click", event => {
+            event.target.parentElement.remove();
+        })
+    </script>
+</body>
+</html>

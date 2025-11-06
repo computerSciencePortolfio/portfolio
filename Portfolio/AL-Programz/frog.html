@@ -1,0 +1,145 @@
+<html lang="en">
+<head>
+    <link rel="icon" href="https://ik.imagekit.io/ALProgramz/Screenshot%202025-09-18%20100602.png?updatedAt=1758215209361">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grof the Frog</title>
+</head>
+<body>
+    <div class="center">
+    <button id="btn">BACK FLIP!</button>
+    <button id="dance">DANCE!</button>
+    <button id="stop">STOP DANCING!</button>
+    <button id="call">CALL FOR BACK UP!</button>
+    <button id="free">FREE FROGS!</button>
+    <input id="speed" type="number" placeholder="Adjust Frog Jumping Speed">
+    </div>
+<div class="main-container">
+    <div>
+    <img class="king frog" src="https://ik.imagekit.io/ALProgramz/Screenshot_2025-10-01_110038-removebg-preview%20(1).png?updatedAt=1759424394266">
+    </div>
+</div>
+    <style>
+        img {
+            width: 500px;
+            margin-bottom: -110px;
+            transform: rotate(-10deg);
+            animation: jump 1s ease-in infinite;
+            cursor: pointer;
+            transition: transform 0.2s linear;
+        }
+        .king {
+            position: relative;
+            bottom: 55px;
+        }
+        .main-container {
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+            width: 100%;
+            height: 100%;
+            border-bottom: 40px solid green;
+            overflow-x: hidden;
+        }
+        button {
+            padding: 10px;
+        }
+        .center {
+            display: flex;
+            justify-content: center;
+        }
+        @keyframes jump {
+            0% {
+                margin-bottom: -110px;
+            }
+            25% {
+                margin-bottom: 110px;
+            }
+            50% {
+                margin-bottom: 330px;
+            }
+            75% {
+                margin-bottom: 110px;
+            }
+            100% {
+                margin-bottom: -110px;
+            }
+        }
+        i {
+            font-size: 100px;
+        }
+        .froggie {
+            left: 0px;
+            transition: left 10s linear, transform 0.2s linear;
+            position: relative;
+        }
+    </style>
+    <script>
+        const btn = document.getElementById("btn");
+        const dance = document.getElementById("dance");
+        const stopBtn = document.getElementById("stop");
+        const speed = document.getElementById("speed");
+        const free = document.getElementById("free");
+        let deg = 0;
+        let flag = true;
+        let inv;
+        let dancedeg = 0;
+        check = true;
+        btn.addEventListener("click", () => {
+            if(flag) {
+                deg += 10;
+            }
+            deg += 360;
+            Array.from(document.getElementsByClassName("frog")).forEach(frog => { frog.style.transform = `rotate(-${deg}deg)`});
+            flag = false;
+        });
+        dance.addEventListener("click", () => {
+        if(check) {
+            inv = setInterval(() => {
+                dancedeg += 90;
+            Array.from(document.getElementsByClassName("frog")).forEach(frog => { frog.style.transform = `rotate(${dancedeg}deg)`});
+            }, 100);
+        }
+        check = false;
+        })
+        stopBtn.addEventListener("click", () => {
+            clearInterval(inv);
+            inv = null;
+            check = true;
+        Array.from(document.getElementsByClassName("frog")).forEach(frog => { frog.style.transform = `rotate(-10deg)`;});
+            flag = true;
+            deg = 0;
+        });
+        speed.addEventListener("input", () => {
+            Array.from(document.getElementsByClassName("frog")).forEach(frog => {
+            frog.style.animation = `jump ${speed.value}s ease-in infinite`;
+            });
+        });
+        document.getElementById("call").addEventListener("click", () => {
+            document.querySelector(".main-container").innerHTML += `
+                <img class="frog froggie" src="https://ik.imagekit.io/ALProgramz/dumpy-frog-litoria-caerulea-closeup-moss-removebg-preview.png?updatedAt=1759168043065">
+            `
+        });
+        setInterval(() => {
+        Array.from(document.getElementsByClassName("frog")).forEach(frog => {
+            if(frog.classList.contains("king")) {
+                frog.onclick = () => alert("YOU CANNOT KILL KING FROG!");
+            } else {
+            frog.onclick = event => {
+                event.target.remove();
+            }
+        }
+        });
+    }, 100);
+        free.addEventListener("click", () => {
+            Array.from(document.getElementsByClassName("froggie")).forEach(frog => {
+                    frog.style.left = `3000px`;
+                    setTimeout(() => {
+                        frog.remove();
+                    }, 10000)
+            });
+        })
+    </script>
+</body>
+</html>

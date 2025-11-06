@@ -1,0 +1,188 @@
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css">
+    <link rel="icon" href="https://ik.imagekit.io/ALProgramz/Screenshot%202025-09-18%20100602.png?updatedAt=1758215209361">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Line creator</title>
+</head>
+<body>
+    <div class="cmd-bar">
+    <button id="loc-btn">Random Location Toggle <i class="fa fa-random"></i></button><input id="loc-box" type="checkbox" disabled>
+    <button id="clear">Clear All <i class="fa fa-trash"></i></button>
+    <span>Line Width: <input id="width" type="range" min="1" max="80" value="2"> <p>Width: <span id="width-display">2</span>px</p></span>
+    <span>Line Color: <input id="color" type="color" value="#ffffff"></span>
+    <span>Add amount of lines: <input type="number" value="0" id="add"> <button id="addBtn">Add Lines <i class="fa fa-add"></i></button></span>
+    <button id="rc">Randomize Color <i class="fa fa-fill"></i></button>
+    <button id="spin">Spin all toggle <i class="fa fa-refresh"></i></button><input id="spin-box" type="checkbox" disabled>
+    </div>
+    <div id="main">
+
+    </div>
+    <style>
+        body {
+            background-color: rgb(31, 30, 30);
+            color: white;
+            font-family: sans-serif;
+        }
+        #main {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            display: flex;
+        }
+        .line {
+            width: 2px;
+            background-color: white;
+            box-shadow: 0 0 10px white;
+            height: 500%;
+            position: absolute;
+            top: -250%;
+            z-index: -2;
+        }
+        button {
+            padding: 10px;
+            background-color: transparent;
+            border: 1px solid rgb(0, 195, 255);
+            color: rgb(0, 195, 255);
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.15s linear;
+        }
+        button:hover {
+            background: rgb(0, 195, 255);
+            color: black; 
+        }
+        button:active {
+            color: rgb(110, 110, 110);
+        }
+        input[type="checkbox"] {
+            scale: 1.5;
+            margin-left: -20px;
+        }
+        input[type="color"] {
+            cursor: pointer;
+        }
+        .cmd-bar {
+            width: 100%;
+            display: flex;
+            border-bottom: 1px solid white;
+            padding-bottom: 10px;
+            background-color: black;
+            z-index: 2;
+            gap: 30px;
+            align-items: center;
+            position: fixed;
+            height: fit-content;
+            flex-wrap: wrap
+        }
+        @keyframes spin {
+    0% {
+        transform: rotate(90deg);
+    }
+    25% {
+        transform: rotate(180deg);
+    }
+    50% {
+        transform: rotate(270deg);
+    }
+    75% {
+        transform: rotate(360deg);
+    }
+    100% {
+        transform: rotate(450deg);
+    }
+}
+    </style>
+    <script>
+        const locBtn = document.getElementById("loc-btn");
+        const locBox = document.getElementById("loc-box");
+        const main = document.getElementById("main");
+        const widthInput = document.getElementById("width");
+        const color = document.getElementById("color");
+        const addAmount = document.getElementById("add");
+        const addBtn = document.getElementById("addBtn");
+        main.addEventListener("click", () => {
+            let div = document.createElement("div");
+            div.classList.add("line");
+            div.style.width = `${widthInput.value}px`;
+            div.style.background = `${color.value}`;
+            div.style.boxShadow = `0 0 10px ${color.value}`;
+            div.style.transform = `rotate(${Math.floor(Math.random()*360)}deg)`;
+            if(locBox.checked == true) {
+                div.style.marginTop = `${Math.floor(Math.random()*100)}%`;
+                div.style.marginLeft = `${Math.floor(Math.random()*100)}%`;
+            } else {
+                div.style.marginTop = `50%`;
+                div.style.marginLeft = `50%`;
+            }
+            main.appendChild(div);
+        });
+        locBtn.addEventListener("click", () => {
+            locBtn.classList.toggle("checked");
+            if(locBtn.classList.contains("checked")) {
+                locBox.checked = true;            
+            } else {
+                locBox.checked = false;
+            }
+        });
+        document.getElementById("clear").addEventListener("click", () => {
+            Array.from(document.getElementsByClassName("line")).forEach(line => {
+                line.remove();
+            })
+        })
+        widthInput.addEventListener("input", () => {
+            Array.from(document.getElementsByClassName("line")).forEach(line => {
+                line.style.width = `${widthInput.value}px`;
+            })
+            document.getElementById("width-display").textContent = widthInput.value;
+        });
+        color.addEventListener("input", () => {
+            Array.from(document.getElementsByClassName("line")).forEach(line => {
+                line.style.background = `${color.value}`;
+                line.style.boxShadow = `0 0 10px ${color.value}`;
+            });
+        });
+        addBtn.addEventListener("click", () => {
+            for(let i = 0; i < Number(addAmount.value); i++) {
+            let div = document.createElement("div");
+            div.classList.add("line");
+            div.style.width = `${widthInput.value}px`;
+            div.style.background = `${color.value}`;
+            div.style.boxShadow = `0 0 10px ${color.value}`;
+            div.style.transform = `rotate(${Math.floor(Math.random()*360)}deg)`;
+            if(locBox.checked == true) {
+                div.style.marginTop = `${Math.floor(Math.random()*100)}%`;
+                div.style.marginLeft = `${Math.floor(Math.random()*100)}%`;
+            } else {
+                div.style.marginTop = `50%`;
+                div.style.marginLeft = `50%`;
+            }
+            main.appendChild(div);
+        };
+        });
+        document.getElementById("rc").addEventListener("click", () => {
+            Array.from(document.getElementsByClassName("line")).forEach(line => {
+                let rColor = `rgb(${Math.random()*255}, ${Math.random()*255}, ${Math.random()*255})`;
+                line.style.background = `${rColor}`;
+                line.style.boxShadow = `0 0 10px ${rColor}`;
+            });
+        });
+        const spinBox = document.getElementById("spin-box");
+        let spincheck = false;
+        document.getElementById("spin").addEventListener("click", () => {
+            spincheck = !spincheck;
+            spinBox.checked = spincheck;
+            if(spinBox.checked) {
+            Array.from(document.getElementsByClassName("line")).forEach(line => {
+                line.style.animation = `spin ${Math.floor(Math.random()*60)}s linear infinite`;
+            });        
+            } else {
+            Array.from(document.getElementsByClassName("line")).forEach(line => {
+                line.style.animation = "none";
+            }); 
+            }
+        })
+    </script>
+</body>
+</html>

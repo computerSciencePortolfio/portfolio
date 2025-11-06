@@ -1,0 +1,136 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>US Phone Number Validator</title>
+</head>
+<body>
+    <div class="heading">
+        <h1>US Phone Number Validator</h1>
+    </div>
+    <div class="main-container">
+        <h3>VALIDATE PHONE NUMBER</h3>
+        <input id="user-input" placeholder="Enter Phone Number Here">
+        <p id="results-div"></p>
+        <button id="check-btn">CHECK</button>
+        <button id="clear-btn">CLEAR</button>
+    </div>
+</body>
+<style>
+body {
+    background-color: rgb(66, 65, 65);
+    margin: 0;
+    padding: 0;
+    color: white;
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+.heading {
+    height: 60px;
+    width: 100%;
+    background-color: rgb(75, 74, 74);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 50px;
+}
+.main-container {
+    width: 90%;
+    height: fit-content;
+    margin: auto;
+    display: flex;
+    background: linear-gradient(
+        45deg,
+        rgb(98, 96, 96),
+        rgb(128, 127, 127)
+    );
+    padding: 15px;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    border-radius: 3px;
+}
+#user-input {
+    width: 70%;
+    border-radius: 50px;
+    border: 2px solid black;
+    padding: 5px 10px;
+}
+#check-btn, #clear-btn {
+    padding: 5px;
+    background-color: transparent;
+    border: 2px solid rgb(86, 172, 208);
+    color: rgb(86, 172, 208);
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 12px;
+    width: 80px;
+}
+#check-btn:hover, #clear-btn:hover {
+    background-color: rgb(86, 172, 208);
+    color: white;
+    box-shadow: 0 0 5px rgb(86, 172, 208);
+}
+</style>
+<script>
+const input = document.getElementById('user-input');
+const btn = document.getElementById('check-btn');
+const result = document.getElementById('results-div');
+const clear = document.getElementById('clear-btn');
+let long = 0;
+const check = () => {
+if(input.value === "") {
+alert("Please provide a phone number");
+} else {
+if(/^[0-9()\s-]*$/.test(input.value || input.value.match(/\s/))) {
+long = input.value.replace(/[^0-9]/gi, "").length;
+if(/\d{3}/.test(input.value) && /\d{4}/.test(input.value)) {
+if(long === 10 || long === 11) {
+if(long === 11 && input.value[0] === "1") {
+if(input.value[1] === "(" && input.value[5] === ")" || input.value[2] === "(" && input.value[6] === ")") {
+result.textContent = `Valid US number: ${input.value}`;
+result.style.color = "lime";
+} else if(input.value.includes("(") || input.value.includes(")")){
+result.textContent = `Invalid US number: ${input.value}`;
+result.style.color = "red";
+} else {
+result.textContent = `Valid US number: ${input.value}`;
+result.style.color = "lime";
+}
+} else if (long === 10) {
+if(input.value[0] === "(" && input.value[4] === ")") {
+result.textContent = `Valid US number: ${input.value}`;
+result.style.color = "lime";
+} else if(input.value.includes("(") || input.value.includes(")")){
+result.textContent = `Invalid US number: ${input.value}`;
+result.style.color = "red";
+} else {
+result.textContent = `Valid US number: ${input.value}`;
+result.style.color = "lime";
+}
+} else {
+result.textContent = `Invalid US number: ${input.value}`;
+result.style.color = "red";
+}
+} else {
+result.textContent = `Invalid US number: ${input.value}`;
+result.style.color = "red";
+}
+} else {
+result.textContent = `Invalid US number: ${input.value}`;
+result.style.color = "red";
+}
+} else {
+result.textContent = `Invalid US number: ${input.value}`;
+result.style.color = "red";
+}
+}
+};
+btn.addEventListener('click', check);
+clear.addEventListener('click', () => {
+input.value = "";
+result.textContent = "";
+result.style.color = "white";
+});
+
+</script>
+</html>

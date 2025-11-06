@@ -1,0 +1,139 @@
+<html lang="en">
+<head>
+    <link rel="icon" href="https://ik.imagekit.io/ALProgramz/Screenshot%202025-09-18%20100602.png?updatedAt=1758215209361">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ripple Machine</title>
+</head>
+<body>
+    <div class="cmd-bar">
+    <div>
+    <p>Ripple Color:</p>
+    <input id="color" type="color" value="#ffffff">
+    </div>
+    <div>
+        <p>Ripple Fill</p>
+        <input id="bgc" type="color">
+        <button class="on" id="trans">Transparent [ON]</button>
+    </div>
+    <div>
+        <p>Expansion Speed</p>
+        <input value="3" min="1" id="speed" type="number">
+    </div>
+    <div>
+        <p>Circle Removement</p>
+        <button id="remove">REMOVE ALL CIRCLES</button>
+    </div>
+    <div>
+        <p>Cat Summoner</p>
+        <button id="cat" class="off">Summon Cats [OFF]</button>
+    </div>
+    </div>
+    <div id="body">
+
+    </div>
+</body>
+<style>
+    body {
+        background-color: rgb(39, 39, 39);
+        overflow-x: hidden;
+        overflow-y: hidden;
+        color: white;
+        font-family: sans-serif;
+    }
+    #body {
+        width: 100%;
+        height: 100%;
+    }
+    .circle {
+        width: 250px;
+        height: 250px;
+        border-radius: 50%;
+        box-shadow: 0 0 50px rgb(255, 255, 255);
+        position: absolute;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    @keyframes expand {
+        0% {
+            transform: scale(1);
+        }
+        100% {
+            transform: scale(20);
+        }
+    }
+    input[type="color"] {
+        width: 150px;
+        height: 150px;
+    }
+    .cmd-bar {
+        display: flex;
+        width: 100%;
+        background-color: black;
+        position: absolute;
+        top: 0;
+        left: 0;
+        padding: 10px;
+        box-sizing: border-box;
+        z-index: 2;
+    }
+    .cmd-bar div {
+        display: flex;
+        flex-direction: column;
+        border-right: 1px solid white;
+        padding: 0 10px;
+    }
+    button {
+        cursor: pointer;
+    }
+</style>
+<script>
+    const body = document.getElementById("body");
+    body.addEventListener("click", event => {
+        let div = document.createElement("div");
+        div.style.boxShadow = `0 0 50px ${document.getElementById("color").value}`;
+        div.style.background = `${document.getElementById("bgc").value}`;
+        if(document.getElementById("trans").classList.contains("on")) {
+            div.style.background = `transparent`;
+        }
+        if(document.getElementById("cat").classList.contains("off")) {
+            console.log("off");
+        } else {
+            div.style.boxShadow = "none";
+            div.innerHTML = '<i class="fa fa-cat"></i>'
+            div.style.color =  `${document.getElementById("color").value}`
+        }
+        div.style.animation = `expand ${document.getElementById("speed").value}s ease-out infinite`;
+        body.appendChild(div);
+        div.classList.add("circle");
+        div.style.left = `${event.clientX-125}px`;
+        div.style.top = `${event.clientY-125}px`;
+        setTimeout(() => {
+            div.remove();
+        }, Number(document.getElementById("speed").value)*1000-100)
+    })
+    document.getElementById("trans").addEventListener("click", event => {
+        event.target.classList.toggle("on");
+        if(event.target.classList.contains("on")) {
+            document.getElementById("trans").textContent = "Transparent [ON]";
+        } else {
+            document.getElementById("trans").textContent = "Transparent [OFF]";
+        }
+    });
+    document.getElementById("cat").addEventListener("click", event => {
+        event.target.classList.toggle("off");
+        if(event.target.classList.contains("off")) {
+            document.getElementById("cat").textContent = "Summon Cats [OFF]";
+        } else {
+            document.getElementById("cat").textContent = "Summon Cats [ON]";
+        }
+    });
+    document.getElementById("remove").addEventListener("click", () => {
+        Array.from(document.getElementsByClassName("circle")).forEach(circ => {
+            circ.remove();
+        })
+    })
+</script>
+</html>
