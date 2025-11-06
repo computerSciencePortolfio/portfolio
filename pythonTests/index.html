@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Caesar Cipher</title>
+    <style>
+        /* Basic styling to make it look clean */
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            margin: 2rem;
+            background-color: #f9f9f9;
+            color: #333;
+        }
+        main {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 2rem;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
+        h1 {
+            border-bottom: 2px solid #eee;
+            padding-bottom: 0.5rem;
+        }
+        /* Style the input/output areas */
+        div {
+            margin-bottom: 1rem;
+        }
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+        input[type="text"] {
+            width: 100%;
+            padding: 0.5rem;
+            box-sizing: border-box; /* Important for 100% width */
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        button {
+            padding: 0.75rem 1.5rem;
+            font-size: 1rem;
+            font-weight: 600;
+            color: #fff;
+            background-color: #007bff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        #output-area {
+            margin-top: 1.5rem;
+            padding: 1rem;
+            background-color: #f1f1f1;
+            border-radius: 4px;
+            font-family: "Courier New", Courier, monospace;
+            font-size: 1.1rem;
+            min-height: 1.5rem;
+            word-wrap: break-word;
+        }
+    </style>
+</head>
+<body>
+
+    <main>
+        <h1>Caesar Cipher Encryptor</h1>
+
+        <div>
+            <label for="inputText">Enter Text to Encrypt:</label>
+            <input type="text" id="inputText" placeholder="Type your message here...">
+        </div>
+      
+        <button id="encryptButton">Encrypt</button>
+
+        <h2>Encrypted Text:</h2>
+        <div id="output-area" aria-live="polite"></div>
+    </main>
+
+
+    <script>
+        // Find the button and the input/output elements on the page
+        const button = document.getElementById('encryptButton');
+        const textInput = document.getElementById('inputText');
+        const outputDiv = document.getElementById('output-area');
+
+        // This function contains the logic translated from your Python script
+        function encryptText() {
+            // Get the text from the input box
+            // Equivalent to: text = input("Enter Text to encrypt")
+            const text = textInput.value;
+
+            // Equivalent to: shift = 3
+            const shift = 3;
+            
+            // Equivalent to: alphabet = 'abcdefghijklmnopqrstuvwxyz'
+            const alphabet = 'abcdefghijklmnopqrstuvwxyz';
+            
+            // Equivalent to: encrypted_text = ''
+            let encrypted_text = '';
+
+            // Equivalent to: for char in text.lower():
+            for (const char of text.toLowerCase()) {
+                
+                // Find the character's position in the alphabet
+                // Equivalent to: index = alphabet.find(char)
+                const index = alphabet.indexOf(char);
+
+                // This is a more robust check than your 'if char == " "...'
+                // It checks if the character is not in the alphabet (index === -1)
+                // If it's a space, punctuation, or number, it's added unchanged.
+                if (index === -1) {
+                    encrypted_text += char;
+                } else {
+                    // Equivalent to: new_index = (index + shift) % 26
+                    const new_index = (index + shift) % 26;
+                    
+                    // Equivalent to: encrypted_text += alphabet[new_index]
+                    encrypted_text += alphabet[new_index];
+                }
+            }
+
+            // Display the result on the web page
+            // Equivalent to: print('encrypted text:', encrypted_text)
+            outputDiv.textContent = encrypted_text;
+        }
+
+        // Run the encryptText function when the button is clicked
+        button.addEventListener('click', encryptText);
+        
+        // Bonus: Also run the encryption if the user hits "Enter" in the text box
+        textInput.addEventListener('keypress', function(event) {
+            if (event.key === 'Enter') {
+                encryptText();
+            }
+        });
+
+    </script>
+
+</body>
+</html>

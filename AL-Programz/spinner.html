@@ -1,0 +1,147 @@
+<html lang="en">
+<head>
+    <link rel="icon" href="https://ik.imagekit.io/ALProgramz/Screenshot%202025-09-18%20100602.png?updatedAt=1758215209361">
+    <link rel="stylesheet" href="styles.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spinny Border</title>
+</head>
+<body>
+<div class="center-div">
+<div id="square">
+    <p>Rotation Speed (RPS):</p>
+    <input type="number" id="speed" value="10">
+    <div id="line"></div>
+    <div id="box"></div>
+    <div class="dot"></div>
+    <div class="dot t"></div>
+    <div class="dot th"></div>
+</div>
+</div>
+<style>
+   
+body {
+    background-color: #222;
+    color: white;
+    font-family: sans-serif;
+    letter-spacing: 1px;
+    padding: 60px;
+}
+#square {
+    padding: 10px;
+    background-color: transparent;
+    border: 30px solid;
+    border-image: linear-gradient(90deg, rgb(20, 133, 224), rgb(202, 13, 13)) 1;
+    color: white;
+    cursor: pointer;
+    width: 90%;
+    height: 99%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    animation: spin 10s linear infinite;
+}
+.center-div {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+}
+#speed {
+    width: 50%;
+    background-color: transparent;
+    color: white;
+    border: 1px solid rgb(68, 68, 68);
+    font-size: 14px;
+    border-radius: 50px;
+    padding: 10px;
+}
+#line {
+    width: 4px;
+    background: linear-gradient(
+        rgb(5, 218, 5),
+        rgb(17, 136, 216),
+        rgb(187, 3, 187),
+        rgb(238, 59, 59),
+        rgb(235, 164, 34),
+        rgb(216, 180, 18)
+    );
+    height: 260px;
+    margin-top: 50px;
+    animation: line 10s linear infinite;
+    transform-origin: bottom center;
+}
+#box {
+    width: 75px;
+    height: 75px;
+    background-color: gray;
+    margin-top: 300px;
+    animation: line 10s linear infinite;
+}
+@keyframes line {
+    0% {
+        transform: rotate(90deg);
+    }
+    25% {
+        transform: rotate(180deg);
+    }
+    50% {
+        transform: rotate(270deg);
+    }
+    75% {
+        transform: rotate(360deg);
+    }
+    100% {
+        transform: rotate(450deg);
+    }
+}
+@keyframes spin {
+    0% {
+    border-image: linear-gradient(90deg, rgb(202, 13, 13), rgb(10, 223, 20)) 1;
+    }
+    20% {
+    border-image: linear-gradient(180deg, rgb(219, 145, 8), rgb(13, 189, 202)) 1;
+    }
+    40% {
+    border-image: linear-gradient(270deg, rgb(202, 199, 13), rgb(13, 57, 202)) 1;      
+    }
+    60% {
+    border-image: linear-gradient(360deg, rgb(35, 202, 13), rgb(142, 9, 231)) 1;
+    }
+    80% {
+    border-image: linear-gradient(90deg, rgb(13, 202, 177), rgb(202, 13, 155)) 1;
+    }
+    100% {
+    border-image: linear-gradient(90deg, rgb(202, 13, 13), rgb(10, 223, 20)) 1;
+    }
+}
+.dot {
+    box-shadow: 0 0 70px 50px rgb(73, 62, 85);
+    position: absolute;
+    border-radius: 50vw;
+    margin-left: 55vw;
+}
+.t {
+    margin-bottom: 900px;
+    margin-right: 100vw;
+}
+.th {
+    margin-top: 900px;
+    margin-right: 80vw;
+}
+</style>
+<script>
+    const speed = document.getElementById("speed");
+const square = document.getElementById("square");
+const line = document.getElementById("line");
+const box = document.getElementById("box");
+speed.addEventListener("input", () => {
+    square.style.animation = `spin ${speed.value}s linear infinite`;
+    line.style.animation = `line ${speed.value}s linear infinite`;
+    box.style.animation = `line ${speed.value}s linear infinite`
+})
+</script>
+</body>
+</html>
